@@ -13,28 +13,33 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text(
-          'Notes',
-          style: TextStyle(
-              color: Colors.white, fontSize: 30, fontWeight: FontWeight.normal),
-        ),
-        actions: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.white30,
-            ),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                size: 30,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromRadius(20),
+        child: AppBar(
+          backgroundColor: Colors.black,
+          title: const Text(
+            'Notes',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 35,
+                fontWeight: FontWeight.normal),
+          ),
+          actions: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xff13b3b3b),
               ),
-            ),
-          )
-        ],
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.search,
+                  size: 30,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
       backgroundColor: Colors.black,
       body: const ItemView(),
@@ -46,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               MaterialPageRoute(builder: (context) => AddNotes()),
             );
           },
-          child: Icon(Icons.add)),
+          child: const Icon(Icons.add)),
     );
   }
 }

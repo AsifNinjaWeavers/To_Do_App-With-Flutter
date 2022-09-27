@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:to_do_app/editnote.dart';
+import 'package:to_do_app/note.dart';
 
 class ViewNote extends StatelessWidget {
-  final String title;
-  final String notes;
-  final String date;
-  ViewNote(
-      {required this.notes,
-      required this.title,
-      required this.date,
-      super.key});
+  final Note note;
+  const ViewNote({required this.note, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // color: Colors.black,
       appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.black,
@@ -26,7 +23,7 @@ class ViewNote extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios_new,
               ),
               iconSize: 20,
@@ -39,63 +36,74 @@ class ViewNote extends StatelessWidget {
                 color: Colors.white30,
               ),
               child: IconButton(
-                onPressed: () {},
-                icon: Icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return EditNote(
+                          note: note,
+                        );
+                      },
+                    ),
+                  );
+                },
+                icon: const Icon(
                   Icons.edit_note_sharp,
                 ),
               ),
             ),
           ]),
       backgroundColor: Colors.black,
-
       body: SingleChildScrollView(
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(
-                left: 6,
-                right: 10,
-                top: 20,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 15,
+            right: 15,
+            top: 20,
+            bottom: 20,
+          ),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.start,
+
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(note.title,
+                  textAlign: TextAlign.justify,
+                  style: GoogleFonts.roboto(
+                    textStyle: const TextStyle(
+                        wordSpacing: 2.5,
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w800),
+                  )),
+              const SizedBox(
+                height: 10,
               ),
-              child: Text(
-                title,
+              Text(
+                DateFormat.yMMMMd().format(note.date).toString(),
+                textAlign: TextAlign.justify,
                 style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: const EdgeInsets.only(
-                left: 10,
-                right: 10,
-                top: 20,
-              ),
-              child: Text(
-                date,
-                style: const TextStyle(
+                  wordSpacing: 2.5,
                   color: Colors.white54,
-                  fontSize: 20,
+                  fontSize: 19,
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(
-                left: 10,
-                right: 10,
-                top: 20,
+              const SizedBox(
+                height: 10,
               ),
-              child: Text(
-                notes,
-                style: TextStyle(color: Colors.white, fontSize: 25),
+              Text(
+                note.notetext,
+                textAlign: TextAlign.justify,
+                style: GoogleFonts.roboto(
+                  textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

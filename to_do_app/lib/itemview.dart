@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:to_do_app/itemdesign.dart';
+import 'package:to_do_app/note.dart';
 
 class ItemView extends StatelessWidget {
   const ItemView({super.key});
@@ -10,6 +11,7 @@ class ItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.custom(
+      // shrinkWrap: true,
       padding: const EdgeInsets.all(15),
       gridDelegate: SliverQuiltedGridDelegate(
         crossAxisCount: 4,
@@ -26,9 +28,57 @@ class ItemView extends StatelessWidget {
         ],
       ),
       childrenDelegate: SliverChildBuilderDelegate(
-        childCount: 20,
-        (context, index) => ItemDesign(index: index),
+        childCount: Note.notes.length,
+        (context, index) => ItemDesign(
+          index: index,
+          notes: Note.notes,
+        ),
       ),
     );
   }
 }
+
+
+
+
+
+// FutureBuilder(
+//       // future: ,
+//       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return const SizedBox(
+//               height: 20, width: 20, child: CircularProgressIndicator());
+//         } else if (!snapshot.hasData) {
+//           return const Center(
+//             child: Text(
+//               'You have not added any notes',
+//               style: TextStyle(color: Colors.white54, fontSize: 20),
+//             ),
+//           );
+//         } else {
+//           return GridView.custom(
+//             shrinkWrap: true,
+//             padding: const EdgeInsets.all(15),
+//             gridDelegate: SliverQuiltedGridDelegate(
+//               crossAxisCount: 4,
+//               mainAxisSpacing: 12,
+//               crossAxisSpacing: 8,
+//               repeatPattern: QuiltedGridRepeatPattern.same,
+//               pattern: [
+//                 const QuiltedGridTile(2, 2),
+//                 const QuiltedGridTile(2, 2),
+//                 const QuiltedGridTile(2, 4),
+//                 const QuiltedGridTile(4, 2),
+//                 const QuiltedGridTile(2, 2),
+//                 const QuiltedGridTile(2, 2),
+//               ],
+//             ),
+//             childrenDelegate: SliverChildBuilderDelegate(
+//               childCount: 1,
+//               (context, index) => ItemDesign(index: index),
+//             ),
+//           );
+//         }
+//         ;
+//       },
+//     );
