@@ -24,7 +24,7 @@ class ItemDesign extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: const Color(0xffffab91),
+          color: Color(notes[index].color),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -34,18 +34,26 @@ class ItemDesign extends StatelessWidget {
             Text(
               notes[index].title,
               // "How To Make Your Personal brand stand out online",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
             ),
             Text(
-              DateFormat.yMMMMd().format(DateTime.now()).toString(),
+              DateFormat.yMMMMd().format(notes[index].date).toString(),
               style: const TextStyle(
-                  color: Colors.black,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 15),
+                  color: Colors.black54,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold),
             )
           ],
         ),
       ),
     );
   }
+
+  // int getcolor() {
+  //   if (notes[index].color == null) {
+  //     return 0xff1e7ed9b;
+  //   }
+  //   return notes[index].color;
+  // }
 }

@@ -14,41 +14,46 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromRadius(20),
-        child: AppBar(
-          backgroundColor: Colors.black,
-          title: const Text(
-            'Notes',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 35,
-                fontWeight: FontWeight.normal),
-          ),
-          actions: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color(0xff13b3b3b),
-              ),
-              child: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.search,
-                  size: 30,
+        preferredSize: const Size.fromHeight(40),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 1, right: 18),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            backgroundColor: const Color(0xf1252525),
+            title: const Text(
+              'Notes',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 35,
+                  fontWeight: FontWeight.normal),
+            ),
+            actions: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xf13b3b3b),
                 ),
-              ),
-            )
-          ],
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.search,
+                    size: 30,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xf1252525),
       body: const ItemView(),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
+          backgroundColor: const Color(0xf1252525),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddNotes()),
+              MaterialPageRoute(builder: (context) => const AddNotes()),
             );
           },
           child: const Icon(Icons.add)),

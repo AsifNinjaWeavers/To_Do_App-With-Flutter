@@ -8,6 +8,7 @@ Future<void> main() async {
   //
   Hive.registerAdapter(NoteAdapter());
   await Hive.openBox<Note>('box');
+
   runApp(const MyApp());
 }
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
     );
   }
