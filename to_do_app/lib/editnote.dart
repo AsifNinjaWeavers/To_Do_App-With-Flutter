@@ -48,14 +48,7 @@ class _EditNoteState extends State<EditNote> {
                     color: const Color(0xf13b3b3b),
                   ),
                   child: IconButton(
-                    onPressed: (() => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const HomeScreen();
-                            },
-                          ),
-                        )),
+                    onPressed: (() => Navigator.pop(context)),
                     icon: const Icon(
                       Icons.arrow_back_ios_new,
                     ),
@@ -90,6 +83,10 @@ class _EditNoteState extends State<EditNote> {
                             ),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          Navigator.popUntil(
+                            context,
+                            ModalRoute.withName('/'),
+                          );
                         },
                         child: const Text(
                           'Update',
