@@ -83,10 +83,10 @@ class _EditNoteState extends State<EditNote> {
                             ),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          Navigator.popUntil(
-                            context,
-                            ModalRoute.withName('/'),
-                          );
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()),
+                              (route) => false);
                         },
                         child: const Text(
                           'Update',

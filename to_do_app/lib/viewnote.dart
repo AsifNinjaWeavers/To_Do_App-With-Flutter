@@ -49,7 +49,7 @@ class ViewNote extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) {

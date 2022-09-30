@@ -15,12 +15,15 @@ class Note {
   String id;
   @HiveField(4)
   int color;
+  @HiveField(5)
+  bool pin;
   Note({
     required this.title,
     required this.notetext,
     required this.date,
     required this.id,
     required this.color,
+    required this.pin,
   });
 
   // static List<Note> notes = [

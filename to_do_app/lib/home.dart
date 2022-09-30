@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/addnote.dart';
-import 'package:to_do_app/itemview.dart';
+import 'package:to_do_app/pinneditem.dart';
+import 'package:to_do_app/normalitemview.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final double screenheight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(40),
@@ -47,7 +49,33 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       backgroundColor: const Color(0xf1252525),
-      body: const ItemView(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Text(
+              'Importent Notes',
+              style: TextStyle(color: Colors.amber, fontSize: 20),
+              textDirection: TextDirection.ltr,
+            ),
+            const PinnedItemView(),
+            const Divider(
+              height: 10,
+              thickness: 2,
+              color: Colors.white,
+            ),
+            Container(
+              // padding: ,
+              padding: EdgeInsets.only(top: 5),
+              child: const Text(
+                'Normal Notes',
+                style: TextStyle(color: Colors.amber, fontSize: 20),
+                textDirection: TextDirection.ltr,
+              ),
+            ),
+            const NormalItemView(),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: const Color(0xf1252525),
           onPressed: () {

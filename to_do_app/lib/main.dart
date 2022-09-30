@@ -8,6 +8,7 @@ Future<void> main() async {
   //
   Hive.registerAdapter(NoteAdapter());
   await Hive.openBox<Note>('box');
+  await Hive.openBox<Note>('PinBox');
 
   runApp(const MyApp());
 }

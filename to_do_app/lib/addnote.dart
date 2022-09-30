@@ -104,6 +104,7 @@ class _AddNotesState extends State<AddNotes> {
                                 date: DateTime.now(),
                                 id: DateTime.now().toString(),
                                 color: getcolorcode(),
+                                pin: false,
                               ));
                           final snackBar = SnackBar(
                             content: const Text(

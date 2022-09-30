@@ -4,31 +4,36 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:to_do_app/itemdesign.dart';
+import 'package:to_do_app/pinneditem.dart';
 import 'package:to_do_app/note.dart';
 
-class ItemView extends StatefulWidget {
-  const ItemView({super.key});
+class NormalItemView extends StatefulWidget {
+  const NormalItemView({super.key});
 
   @override
-  State<ItemView> createState() => _ItemViewState();
+  State<NormalItemView> createState() => _NormalItemViewState();
 }
 
-class _ItemViewState extends State<ItemView> {
-  Box<Note>? box;
-  List<Note>? notes;
+class _NormalItemViewState extends State<NormalItemView> {
+  Box<Note>? pinbox;
+  Box<Note>? unpinbox;
+  List<Note> notes = [];
+  List<Note> pinnotes = [];
   @override
   void initState() {
     super.initState();
-    box = Hive.box<Note>('box');
+    unpinbox = Hive.box<Note>('box');
+    pinbox = Hive.box<Note>('PinBox');
   }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: box!.listenable(),
+      valueListenable: unpinbox!.listenable(),
       builder: (BuildContext context, value, _) {
         return GridView.custom(
-          // shrinkWrap: true,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(15),
           gridDelegate: SliverQuiltedGridDelegate(
             crossAxisCount: 4,
@@ -38,7 +43,6 @@ class _ItemViewState extends State<ItemView> {
             pattern: [
               const QuiltedGridTile(2, 2),
               const QuiltedGridTile(2, 2),
-              const QuiltedGridTile(2, 4),
               const QuiltedGridTile(4, 2),
               const QuiltedGridTile(2, 2),
               const QuiltedGridTile(2, 2),
@@ -46,7 +50,11 @@ class _ItemViewState extends State<ItemView> {
           ),
           childrenDelegate: SliverChildBuilderDelegate(
             childCount: value.length,
-            (context, index) => ItemDesign(
+            (context, index) =>
+                // value.values.elementAt(index).pin==true?Itemparts():
+                ItemDesign(
+              pinbox: pinbox!,
+              unpinbox: unpinbox!,
               notes: value.values.toList(),
               index: index,
             ),
