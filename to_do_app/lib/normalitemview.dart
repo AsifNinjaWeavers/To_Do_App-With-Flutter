@@ -4,7 +4,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:to_do_app/itemdesign.dart';
-import 'package:to_do_app/pinneditem.dart';
 import 'package:to_do_app/note.dart';
 
 class NormalItemView extends StatefulWidget {
@@ -19,6 +18,7 @@ class _NormalItemViewState extends State<NormalItemView> {
   Box<Note>? unpinbox;
   List<Note> notes = [];
   List<Note> pinnotes = [];
+
   @override
   void initState() {
     super.initState();
@@ -32,29 +32,25 @@ class _NormalItemViewState extends State<NormalItemView> {
       valueListenable: unpinbox!.listenable(),
       builder: (BuildContext context, value, _) {
         return GridView.custom(
+          padding: const EdgeInsets.all(20),
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(15),
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverQuiltedGridDelegate(
             crossAxisCount: 4,
-            mainAxisSpacing: 12,
+            mainAxisSpacing: 8,
             crossAxisSpacing: 8,
-            repeatPattern: QuiltedGridRepeatPattern.same,
+            repeatPattern: QuiltedGridRepeatPattern.inverted,
             pattern: [
               const QuiltedGridTile(2, 2),
-              const QuiltedGridTile(2, 2),
-              const QuiltedGridTile(4, 2),
-              const QuiltedGridTile(2, 2),
-              const QuiltedGridTile(2, 2),
+              const QuiltedGridTile(1, 2),
+              const QuiltedGridTile(1, 2),
             ],
           ),
           childrenDelegate: SliverChildBuilderDelegate(
             childCount: value.length,
-            (context, index) =>
-                // value.values.elementAt(index).pin==true?Itemparts():
-                ItemDesign(
-              pinbox: pinbox!,
-              unpinbox: unpinbox!,
+            (context, index) => ItemDesign(
+              mainbox: unpinbox!,
+              supportbox: pinbox!,
               notes: value.values.toList(),
               index: index,
             ),
@@ -64,7 +60,6 @@ class _NormalItemViewState extends State<NormalItemView> {
     );
   }
 }
-
 
 
 

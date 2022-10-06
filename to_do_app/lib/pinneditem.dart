@@ -32,29 +32,25 @@ class _PinnedItemViewState extends State<PinnedItemView> {
       valueListenable: pinbox!.listenable(),
       builder: (BuildContext context, value, _) {
         return GridView.custom(
+          padding: EdgeInsets.all(20),
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(15),
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverQuiltedGridDelegate(
             crossAxisCount: 4,
-            mainAxisSpacing: 12,
+            mainAxisSpacing: 8,
             crossAxisSpacing: 8,
-            repeatPattern: QuiltedGridRepeatPattern.same,
+            repeatPattern: QuiltedGridRepeatPattern.inverted,
             pattern: [
               const QuiltedGridTile(2, 2),
-              const QuiltedGridTile(2, 2),
-              const QuiltedGridTile(4, 2),
-              const QuiltedGridTile(2, 2),
-              const QuiltedGridTile(2, 2),
+              const QuiltedGridTile(1, 2),
+              const QuiltedGridTile(1, 2),
             ],
           ),
           childrenDelegate: SliverChildBuilderDelegate(
             childCount: value.length,
-            (context, index) =>
-                // value.values.elementAt(index).pin==true?Itemparts():
-                ItemDesign(
-              pinbox: pinbox!,
-              unpinbox: unpinbox!,
+            (context, index) => ItemDesign(
+              mainbox: pinbox!,
+              supportbox: unpinbox!,
               notes: value.values.toList(),
               index: index,
             ),
@@ -64,49 +60,3 @@ class _PinnedItemViewState extends State<PinnedItemView> {
     );
   }
 }
-
-
-
-
-
-
-// FutureBuilder(
-//       // future: ,
-//       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return const SizedBox(
-//               height: 20, width: 20, child: CircularProgressIndicator());
-//         } else if (!snapshot.hasData) {
-//           return const Center(
-//             child: Text(
-//               'You have not added any notes',
-//               style: TextStyle(color: Colors.white54, fontSize: 20),
-//             ),
-//           );
-//         } else {
-//           return GridView.custom(
-//             shrinkWrap: true,
-//             padding: const EdgeInsets.all(15),
-//             gridDelegate: SliverQuiltedGridDelegate(
-//               crossAxisCount: 4,
-//               mainAxisSpacing: 12,
-//               crossAxisSpacing: 8,
-//               repeatPattern: QuiltedGridRepeatPattern.same,
-//               pattern: [
-//                 const QuiltedGridTile(2, 2),
-//                 const QuiltedGridTile(2, 2),
-//                 const QuiltedGridTile(2, 4),
-//                 const QuiltedGridTile(4, 2),
-//                 const QuiltedGridTile(2, 2),
-//                 const QuiltedGridTile(2, 2),
-//               ],
-//             ),
-//             childrenDelegate: SliverChildBuilderDelegate(
-//               childCount: 1,
-//               (context, index) => ItemDesign(index: index),
-//             ),
-//           );
-//         }
-//         ;
-//       },
-//     );

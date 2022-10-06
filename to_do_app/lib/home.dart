@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:to_do_app/addnote.dart';
+import 'package:to_do_app/homebodydesign.dart';
+import 'package:to_do_app/note.dart';
 import 'package:to_do_app/pinneditem.dart';
 import 'package:to_do_app/normalitemview.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -49,33 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       backgroundColor: const Color(0xf1252525),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Text(
-              'Importent Notes',
-              style: TextStyle(color: Colors.amber, fontSize: 20),
-              textDirection: TextDirection.ltr,
-            ),
-            const PinnedItemView(),
-            const Divider(
-              height: 10,
-              thickness: 2,
-              color: Colors.white,
-            ),
-            Container(
-              // padding: ,
-              padding: EdgeInsets.only(top: 5),
-              child: const Text(
-                'Normal Notes',
-                style: TextStyle(color: Colors.amber, fontSize: 20),
-                textDirection: TextDirection.ltr,
-              ),
-            ),
-            const NormalItemView(),
-          ],
-        ),
-      ),
+      body: const HomeBodyDesign(),
       floatingActionButton: FloatingActionButton(
           backgroundColor: const Color(0xf1252525),
           onPressed: () {

@@ -85,7 +85,7 @@ class _EditNoteState extends State<EditNote> {
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()),
+                                  builder: (context) => HomeScreen()),
                               (route) => false);
                         },
                         child: const Text(
