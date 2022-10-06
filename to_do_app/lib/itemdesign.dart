@@ -10,7 +10,7 @@ class ItemDesign extends StatefulWidget {
   final int index;
   final Box<Note> supportbox;
 
-  ItemDesign(
+  const ItemDesign(
       {required this.index,
       required this.notes,
       required this.mainbox,

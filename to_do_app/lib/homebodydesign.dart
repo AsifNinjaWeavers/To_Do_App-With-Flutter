@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:to_do_app/normalitemview.dart';
 import 'package:to_do_app/note.dart';
@@ -52,14 +49,14 @@ class _HomeBodyDesignState extends State<HomeBodyDesign> {
                     : const SizedBox(),
               ),
               Container(
-                padding: EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(top: 5),
                 child: pinbox?.isEmpty == false
                     ? const Text(
                         'Normal Notes',
                         style: TextStyle(color: Colors.white60, fontSize: 20),
                         textDirection: TextDirection.ltr,
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
               ),
               const NormalItemView(),
             ],

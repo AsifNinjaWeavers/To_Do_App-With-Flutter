@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:to_do_app/addnote.dart';
 import 'package:to_do_app/homebodydesign.dart';
-import 'package:to_do_app/note.dart';
-import 'package:to_do_app/pinneditem.dart';
-import 'package:to_do_app/normalitemview.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final double screenheight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(40),

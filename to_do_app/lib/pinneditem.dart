@@ -4,7 +4,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:to_do_app/itemdesign.dart';
-import 'package:to_do_app/pinneditem.dart';
 import 'package:to_do_app/note.dart';
 
 class PinnedItemView extends StatefulWidget {
@@ -32,7 +31,7 @@ class _PinnedItemViewState extends State<PinnedItemView> {
       valueListenable: pinbox!.listenable(),
       builder: (BuildContext context, value, _) {
         return GridView.custom(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverQuiltedGridDelegate(
