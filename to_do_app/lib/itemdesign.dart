@@ -1,7 +1,12 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_app/note.dart';
+import 'package:to_do_app/profile.dart';
+import 'package:to_do_app/search.dart';
 import 'package:to_do_app/viewnote.dart';
 
 class ItemDesign extends StatefulWidget {
@@ -9,9 +14,11 @@ class ItemDesign extends StatefulWidget {
   final List<Note> notes;
   final int index;
   final Box<Note> supportbox;
+  final Box<Profile> profile;
 
-  const ItemDesign(
-      {required this.index,
+  ItemDesign(
+      {required this.profile,
+      required this.index,
       required this.notes,
       required this.mainbox,
       required this.supportbox,
@@ -22,13 +29,15 @@ class ItemDesign extends StatefulWidget {
 }
 
 class _ItemDesignState extends State<ItemDesign> {
+  Box<Search>? searchbox;
   String pin = "Pin";
-
+  Color? pickcolor;
   List<Note> t = [];
 
   @override
   void initState() {
     super.initState();
+    searchbox = Hive.box<Search>('SearchBox');
   }
 
   @override
@@ -54,20 +63,41 @@ class _ItemDesignState extends State<ItemDesign> {
         children: [
           Container(
             padding:
-                const EdgeInsets.only(right: 30, left: 10, top: 10, bottom: 5),
+                const EdgeInsets.only(right: 30, left: 20, top: 10, bottom: 10),
             decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.center,
+                stops: const [0.001, 0.2],
+                colors: [
+                  Colors.white54,
+                  Color(widget.notes[widget.index].color),
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                    color: Color(widget.notes[widget.index].color),
+                    blurRadius: 10.0,
+                    blurStyle: BlurStyle.solid
+                    // spreadRadius: 2.0,
+                    ),
+              ],
               color: Color(widget.notes[widget.index].color),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(30),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Text(
-                    widget.notes[widget.index].title,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                    widget.mainbox.getAt(widget.index)!.title,
+                    style: TextStyle(
+                        color: widget.profile.isEmpty
+                            ? Colors.black
+                            : Color(widget.profile.getAt(0)!.notestextcolor),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                     // textAlign: TextAlign.start,
                     // textDirection: TextDirection.RTL,
                   ),
@@ -76,9 +106,11 @@ class _ItemDesignState extends State<ItemDesign> {
                   DateFormat.yMMMMd()
                       .format(widget.notes[widget.index].date)
                       .toString(),
-                  style: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 15,
+                  style: TextStyle(
+                      color: widget.profile.isEmpty
+                          ? Colors.black
+                          : Color(widget.profile.getAt(0)!.notestextcolor),
+                      fontSize: 14,
                       fontWeight: FontWeight.bold),
                 ),
               ],
@@ -86,10 +118,12 @@ class _ItemDesignState extends State<ItemDesign> {
           ),
           PopupMenuButton(
             // offset: Offset.fromDirection(0, -60),
+            color: Colors.white54,
             onSelected: ((value) => {
                   if (value == 'delete')
                     {
                       widget.mainbox.deleteAt(widget.index),
+                      seachbardelete(widget.notes[widget.index]),
                     },
                   if (value == 'Pin')
                     {
@@ -107,8 +141,15 @@ class _ItemDesignState extends State<ItemDesign> {
                         widget.supportbox.add(widget.notes[widget.index]);
                         widget.mainbox.deleteAt(widget.index);
                       })
-                    }
+                    },
+                  if (value == "Color") {showPicker()}
                 }),
+            icon: Icon(
+              Icons.more_vert,
+              color: widget.profile.isEmpty
+                  ? Colors.black
+                  : Color(widget.profile.getAt(0)!.notestextcolor),
+            ),
             position: PopupMenuPosition.under,
             padding: const EdgeInsets.all(4),
             itemBuilder: ((context) => [
@@ -118,10 +159,65 @@ class _ItemDesignState extends State<ItemDesign> {
                     child: Text('Delete'),
                   ),
                   PopupMenuItem(value: pin, child: Text(pin)),
+                  const PopupMenuItem(
+                    value: 'Color',
+                    child: Text(
+                      "Pick Color",
+                      style: TextStyle(color: Colors.black),
+                    ),
+
+                    // style: ElevatedButton.styleFrom(),
+                  ),
                 ]),
           ),
         ],
       ),
+    );
+  }
+
+  void seachbardelete(Note str) {
+    List<Search> allsearch = searchbox!.values.toList();
+    List<int> key = searchbox!.keys.cast<int>().toList();
+    for (int i = 0; i < allsearch.length; i++) {
+      if (str.title == allsearch[i].note.title) {
+        searchbox?.delete(key[i]);
+      }
+    }
+  }
+
+  Future showPicker() {
+    pickcolor = Color(widget.notes[widget.index].color);
+    return showDialog(
+      builder: (context) => AlertDialog(
+        title: const Text('Pick a color!'),
+        content: SingleChildScrollView(
+          child: MaterialPicker(
+            pickerColor: pickcolor!,
+            onColorChanged: ((value) => pickcolor = value),
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: const Text('Got it'),
+            onPressed: () {
+              setState(() {
+                widget.notes[widget.index].color = pickcolor!.value;
+                widget.mainbox.putAt(
+                    widget.index,
+                    Note(
+                        title: widget.notes[widget.index].title,
+                        notetext: widget.notes[widget.index].notetext,
+                        date: widget.notes[widget.index].date,
+                        id: widget.notes[widget.index].id,
+                        color: pickcolor!.value,
+                        pin: widget.notes[widget.index].pin));
+              });
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+      context: context,
     );
   }
 }

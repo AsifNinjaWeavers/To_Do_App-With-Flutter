@@ -25,11 +25,4 @@ class Note {
     required this.color,
     required this.pin,
   });
-
-  // static List<Note> notes = [
-  //   Note(title: "title", notetext: "note_text", date: DateTime.now(), id: '1'),
-  //   Note(title: "titlea", notetext: "note_text", date: DateTime.now(), id: '2'),
-  //   Note(
-  //       title: "titlevd", notetext: "note_text", date: DateTime.now(), id: '3'),
-  // ];
 }

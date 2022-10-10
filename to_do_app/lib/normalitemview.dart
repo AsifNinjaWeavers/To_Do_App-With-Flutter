@@ -5,15 +5,18 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:to_do_app/itemdesign.dart';
 import 'package:to_do_app/note.dart';
+import 'package:to_do_app/profile.dart';
 
 class NormalItemView extends StatefulWidget {
-  const NormalItemView({super.key});
+  final Color notextextcolor;
+  NormalItemView({required this.notextextcolor, super.key});
 
   @override
   State<NormalItemView> createState() => _NormalItemViewState();
 }
 
 class _NormalItemViewState extends State<NormalItemView> {
+  Box<Profile>? profile;
   Box<Note>? pinbox;
   Box<Note>? unpinbox;
   List<Note> notes = [];
@@ -24,37 +27,44 @@ class _NormalItemViewState extends State<NormalItemView> {
     super.initState();
     unpinbox = Hive.box<Note>('box');
     pinbox = Hive.box<Note>('PinBox');
+    profile = Hive.box<Profile>('ProfilBox');
   }
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: unpinbox!.listenable(),
-      builder: (BuildContext context, value, _) {
-        return GridView.custom(
-          padding: const EdgeInsets.all(20),
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: SliverQuiltedGridDelegate(
-            crossAxisCount: 4,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            repeatPattern: QuiltedGridRepeatPattern.inverted,
-            pattern: [
-              const QuiltedGridTile(2, 2),
-              const QuiltedGridTile(1, 2),
-              const QuiltedGridTile(1, 2),
-            ],
-          ),
-          childrenDelegate: SliverChildBuilderDelegate(
-            childCount: value.length,
-            (context, index) => ItemDesign(
-              mainbox: unpinbox!,
-              supportbox: pinbox!,
-              notes: value.values.toList(),
-              index: index,
-            ),
-          ),
+      valueListenable: profile!.listenable(),
+      builder: (BuildContext context, value, Widget? child) {
+        return ValueListenableBuilder(
+          valueListenable: unpinbox!.listenable(),
+          builder: (BuildContext context, value, _) {
+            return GridView.custom(
+              padding: const EdgeInsets.all(20),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverQuiltedGridDelegate(
+                crossAxisCount: 6,
+                mainAxisSpacing: 22,
+                crossAxisSpacing: 22,
+                repeatPattern: QuiltedGridRepeatPattern.inverted,
+                pattern: [
+                  const QuiltedGridTile(3, 3),
+                  const QuiltedGridTile(2, 3),
+                  // const QuiltedGridTile(1, 2),
+                ],
+              ),
+              childrenDelegate: SliverChildBuilderDelegate(
+                childCount: value.length,
+                (context, index) => ItemDesign(
+                  profile: profile!,
+                  mainbox: unpinbox!,
+                  supportbox: pinbox!,
+                  notes: value.values.toList(),
+                  index: index,
+                ),
+              ),
+            );
+          },
         );
       },
     );

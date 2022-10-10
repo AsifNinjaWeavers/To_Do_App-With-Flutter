@@ -65,28 +65,66 @@ class _EditNoteState extends State<EditNote> {
                     ),
                     child: TextButton(
                         onPressed: () {
-                          widget.note.title = titleController.text.toString();
-                          widget.note.notetext = noteController.text.toString();
-                          widget.note.date = DateTime.now();
-                          final snackBar = SnackBar(
-                            content: const Text(
-                              'Note Updated',
-                              style: TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                            backgroundColor: (Colors.white),
-                            action: SnackBarAction(
-                              label: 'Close',
-                              onPressed: () {},
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => const HomeScreen()),
-                              (route) => false);
+                          if (titleController.text.toString().isEmpty) {
+                            final snackBar = SnackBar(
+                              content: const Text(
+                                'You have not entered anything in title',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              ),
+                              backgroundColor: (Colors.white),
+                              action: SnackBarAction(
+                                label: 'Close',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else if (noteController.text.toString().isEmpty) {
+                            final snackBar = SnackBar(
+                              content: const Text(
+                                'You have not entered anything in note',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              ),
+                              backgroundColor: (Colors.white),
+                              action: SnackBarAction(
+                                label: 'Close',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          } else {
+                            widget.note.title = titleController.text.toString();
+                            widget.note.notetext =
+                                noteController.text.toString();
+                            widget.note.date = DateTime.now();
+                            final snackBar = SnackBar(
+                              content: const Text(
+                                'Note Updated',
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              ),
+                              backgroundColor: (Colors.white),
+                              action: SnackBarAction(
+                                label: 'Close',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()),
+                                (route) => false);
+                          }
                         },
                         child: const Text(
                           'Update',

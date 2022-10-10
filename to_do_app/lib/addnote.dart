@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:to_do_app/formfielwidget.dart';
 import 'package:to_do_app/note.dart';
+import 'package:to_do_app/search.dart';
 
 class AddNotes extends StatefulWidget {
   const AddNotes({super.key});
@@ -19,10 +20,12 @@ class _AddNotesState extends State<AddNotes> {
 
   TextEditingController noteController = TextEditingController();
   Box<Note>? box;
+  Box<Search>? searchbox;
   @override
   void initState() {
-    box = Hive.box<Note>('box');
     super.initState();
+    box = Hive.box<Note>('box');
+    searchbox = Hive.box<Search>('SearchBox');
   }
 
   @override
@@ -96,16 +99,21 @@ class _AddNotesState extends State<AddNotes> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
-                          box?.put(
-                              DateTime.now().toString(),
-                              Note(
-                                title: titleController.text.toString(),
-                                notetext: noteController.text.toString(),
-                                date: DateTime.now(),
-                                id: DateTime.now().toString(),
-                                color: getcolorcode(),
-                                pin: false,
-                              ));
+                          Note note = Note(
+                            title: titleController.text.toString(),
+                            notetext: noteController.text.toString(),
+                            date: DateTime.now(),
+                            id: DateTime.now().toString(),
+                            color: getcolorcode(),
+                            pin: false,
+                          );
+
+                          box?.put(DateTime.now().toString(), note);
+                          searchbox?.add(Search(
+                              title:
+                                  titleController.text.toString().toLowerCase(),
+                              noteid: DateTime.now().toString(),
+                              note: note));
                           final snackBar = SnackBar(
                             content: const Text(
                               'Note Added',
@@ -142,13 +150,17 @@ class _AddNotesState extends State<AddNotes> {
 
 int getcolorcode() {
   List<int> col = [
+    0xff1f6638f,
     0xff1ffab91,
     0xff1ffcc80,
     0xff1e7ed9b,
     0xff181deea,
     0xff1cf94da,
-    0xff1f48fb1
+    0xff1f48fb1,
+    0xff153cded,
+    0xff19b86fb,
+    0xff1feb866,
   ];
-  int intValue = Random().nextInt(6);
+  int intValue = Random().nextInt(10);
   return col[intValue];
 }
